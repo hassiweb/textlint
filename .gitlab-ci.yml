@@ -7,8 +7,7 @@ textlint:
     image: node:latest
     script:
         - textlint work/test.md
-    tags:
-        - sample-project
+
 
 docker-push:
     stage: release
