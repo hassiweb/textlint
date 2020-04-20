@@ -6,6 +6,8 @@ textlint:
     stage: test
     image: node:latest
     script:
+        - npm install -g textlint
+        - npm install -g textlint-rule-preset-japanese textlint-rule-preset-ja-technical-writing textlint-rule-prh
         - textlint work/test.md
 
 
