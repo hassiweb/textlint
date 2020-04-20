@@ -1,0 +1,12 @@
+version: "3.4"
+
+x-var: &IMAGE_NAME
+  "hassiweb/textlint:1.0"
+
+services:
+  textlint:
+    image: *IMAGE_NAME
+    build:
+      context: ./textlint
+    volumes:
+      - ./work:/work

@@ -1,0 +1,27 @@
+stages:
+    - test
+    - release
+
+textlint:
+    stage: test
+    image: node:latest
+    script:
+        - textlint work/test.md
+    tags:
+        - sample-project
+
+docker-push:
+    stage: release
+    image: docker:latest
+    services:
+        - docker:dind
+    variables:
+        REGISTRY_URL: $CI_REGISTRY
+        IMAGE_TAG: $CI_REGISTRY/hassiweb/$CI_PROJECT_NAME/textlint:0.1
+    before_script:
+        - docker info
+    script:
+        - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" $REGISTRY_URL
+        - docker build -f textlint/Dockerfile -t $IMAGE_TAG textlint/
+        - docker push $IMAGE_TAG
+        
