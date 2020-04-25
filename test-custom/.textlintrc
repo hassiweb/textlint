@@ -1,0 +1,30 @@
+{
+    "rules": {
+        "preset-ja-technical-writing": {
+            "max-ten": {
+               max: 4
+            }
+        },
+        "preset-ja-spacing": {
+            "ja-nakaguro-or-halfwidth-space-between-katakana": true,
+            "ja-no-space-around-parentheses": false,
+            "ja-no-space-between-full-width": true,
+            "ja-space-between-half-and-full-width": {
+                "space": "always"
+            },
+            "ja-space-after-exclamation": true,
+            "ja-space-after-question": true,
+            "ja-space-around-code": false,
+        },
+        "prh": {
+            "rulePaths": [
+                "./prh/textlint-prh-kanji-hiragana.yml",
+                "./prh/WEB+DB_PRESS.yml"
+            ]
+        },
+        "ja-hiragana-fukushi": true,
+        "ja-hiragana-keishikimeishi": true,
+        "ja-hiragana-hojodoushi": true,
+        "@textlint-ja/no-synonyms": true
+    }
+}

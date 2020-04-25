@@ -3,14 +3,24 @@ stages:
     - release
     - test
 
-textlint:
+textlint-test:
     stage: pre-test
     image: node:latest
     script:
         - npm install -g textlint
-        - npm install -g textlint-rule-preset-japanese textlint-rule-preset-ja-technical-writing textlint-rule-prh
-        - cd work && textlint test.md
-
+        - npm install -g textlint-rule-preset-japanese \
+            textlint-rule-preset-ja-technical-writing \
+            textlint-rule-preset-ja-spacing \
+            textlint-rule-preset-ja-engineering-paper \
+            textlint-rule-preset-jtf-style \
+            textlint-rule-prh \
+            textlint-rule-ja-space-between-half-and-full-width \
+            textlint-rule-ja-space-around-code \
+            textlint-rule-ja-hiragana-fukushi \
+            textlint-rule-ja-hiragana-keishikimeishi \
+            textlint-rule-ja-hiragana-hojodoushi \
+            @textlint-ja/textlint-rule-no-synonyms sudachi-synonyms-dictionary
+        - cd test-custom && textlint success.md
 
 docker-push:
     stage: release
@@ -32,8 +42,9 @@ docker-push:
         - docker build -f textlint/Dockerfile -t $IMAGE_TAG textlint/
         - docker push $IMAGE_TAG
         
-test:
+docker-textlint-test:
     stage: test
     image: registry.gitlab.com/hassiweb-programming/textlint/textlint:0.1
     script:
-        - textlint test.md
+        - cd test-custom && textlint success.md
+
