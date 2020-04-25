@@ -14,7 +14,7 @@ RUN npm install -g textlint \
     textlint-rule-ja-hiragana-keishikimeishi \
     textlint-rule-ja-hiragana-hojodoushi \
     @textlint-ja/textlint-rule-no-synonyms sudachi-synonyms-dictionary
+
 WORKDIR /work
 
-ENTRYPOINT ["textlint"]
-CMD ["-h"]
+CMD ["textlint", "-h"]
