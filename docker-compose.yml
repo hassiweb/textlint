@@ -4,9 +4,38 @@ x-var: &IMAGE_NAME
   "hassiweb/textlint:1.0"
 
 services:
-  textlint:
-    image: *IMAGE_NAME
-    build:
-      context: ./textlint
-    volumes:
-      - ./work:/work
+    textlint-ja-technical-writing:
+        image: *IMAGE_NAME
+        build:
+            context: ./textlint
+        volumes:
+            - ./test-ja-technical-writing:/work
+
+    textlint-ja-engineering-paper:
+        image: *IMAGE_NAME
+        build:
+            context: ./textlint
+        volumes:
+            - ./test-ja-engineering-paper:/work
+
+    textlint-ja-engineering-paper:
+        image: *IMAGE_NAME
+        build:
+            context: ./textlint
+        volumes:
+            - ./test-ja-engineering-paper:/work
+
+    textlint-prh:
+        image: *IMAGE_NAME
+        build:
+            context: ./textlint
+        volumes:
+            - ./test-prh:/work
+        
+    textlint:
+        image: *IMAGE_NAME
+        build:
+            context: ./textlint
+        volumes:
+            - ./test-custom:/work
+        

@@ -1,0 +1,10 @@
+{
+    "rules": {
+        "prh": {
+            "rulePaths": [
+                "./prh/textlint-prh-kanji-hiragana.yml",
+                "./prh/WEB+DB_PRESS.yml"
+            ]
+        }
+   }
+}

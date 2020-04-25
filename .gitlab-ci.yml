@@ -1,15 +1,29 @@
 stages:
-    - test
+    - pre-test
     - release
+    - test
 
-textlint:
-    stage: test
+variables:
+    IMAGE_VERSION: "1.0"
+
+textlint-test:
+    stage: pre-test
     image: node:latest
     script:
         - npm install -g textlint
-        - npm install -g textlint-rule-preset-japanese textlint-rule-preset-ja-technical-writing textlint-rule-prh
-        - textlint work/test.md
-
+        - npm install -g textlint-rule-preset-japanese
+        - npm install -g textlint-rule-preset-ja-technical-writing
+        - npm install -g textlint-rule-preset-ja-spacing
+        - npm install -g textlint-rule-preset-ja-engineering-paper
+        - npm install -g textlint-rule-preset-jtf-style
+        - npm install -g textlint-rule-prh
+        - npm install -g textlint-rule-ja-space-between-half-and-full-width
+        - npm install -g textlint-rule-ja-space-around-code
+        - npm install -g textlint-rule-ja-hiragana-fukushi
+        - npm install -g textlint-rule-ja-hiragana-keishikimeishi
+        - npm install -g textlint-rule-ja-hiragana-hojodoushi
+        - npm install -g @textlint-ja/textlint-rule-no-synonyms sudachi-synonyms-dictionary
+        - cd test-custom && textlint success.md
 
 docker-push:
     stage: release
@@ -18,11 +32,21 @@ docker-push:
         - docker:dind
     variables:
         REGISTRY_URL: $CI_REGISTRY
-        IMAGE_TAG: $CI_REGISTRY/hassiweb/$CI_PROJECT_NAME/textlint:0.1
+        IMAGE_NAME: textlint
+        IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$IMAGE_NAME:$IMAGE_VERSION
     before_script:
-        - docker info
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+        - docker login -u $CI_REGISTRY_USER -p $CI_BUILD_TOKEN $REGISTRY_URL
     script:
-        - docker login -u "gitlab-ci-token" -p "$CI_BUILD_TOKEN" $REGISTRY_URL
+        - echo $CI_REGISTRY_IMAGE
+        - echo $IMAGE_TAG
+        - echo $CI_PROJECT_NAME
         - docker build -f textlint/Dockerfile -t $IMAGE_TAG textlint/
         - docker push $IMAGE_TAG
         
+docker-textlint-test:
+    stage: test
+    image: registry.gitlab.com/hassiweb-programming/textlint/textlint:$IMAGE_VERSION
+    script:
+        - cd test-custom && textlint success.md
+

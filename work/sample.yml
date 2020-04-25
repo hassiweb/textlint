@@ -1,7 +1,0 @@
-version: 1
-
-rules:
-    - expected: ください
-      pattern: 下さい
-    - expected: すべて
-      pattern: 全て
